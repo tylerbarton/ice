@@ -40,10 +40,10 @@
             this.flowLayoutPanelSymbols = new System.Windows.Forms.FlowLayoutPanel();
             this.labelNoSymbols = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxPlot = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.flowLayoutPanelSymbols.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlot)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -73,14 +73,14 @@
             // addTickerToolStripMenuItem
             // 
             this.addTickerToolStripMenuItem.Name = "addTickerToolStripMenuItem";
-            this.addTickerToolStripMenuItem.Size = new System.Drawing.Size(538, 66);
+            this.addTickerToolStripMenuItem.Size = new System.Drawing.Size(419, 66);
             this.addTickerToolStripMenuItem.Text = "Add Ticker";
             this.addTickerToolStripMenuItem.Click += new System.EventHandler(this.addTickerToolStripMenuItem_Click);
             // 
             // clearTickersToolStripMenuItem
             // 
             this.clearTickersToolStripMenuItem.Name = "clearTickersToolStripMenuItem";
-            this.clearTickersToolStripMenuItem.Size = new System.Drawing.Size(538, 66);
+            this.clearTickersToolStripMenuItem.Size = new System.Drawing.Size(419, 66);
             this.clearTickersToolStripMenuItem.Text = "Clear Tickers";
             this.clearTickersToolStripMenuItem.Click += new System.EventHandler(this.clearTickersToolStripMenuItem_Click);
             // 
@@ -147,16 +147,16 @@
             this.labelNoSymbols.TabIndex = 2;
             this.labelNoSymbols.Text = "Double-click the symbol panel to begin...";
             // 
-            // pictureBox1
+            // pictureBoxPlot
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBoxPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(697, 59);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1639, 1075);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxPlot.Location = new System.Drawing.Point(697, 59);
+            this.pictureBoxPlot.Name = "pictureBoxPlot";
+            this.pictureBoxPlot.Size = new System.Drawing.Size(1639, 1075);
+            this.pictureBoxPlot.TabIndex = 2;
+            this.pictureBoxPlot.TabStop = false;
             // 
             // FormMain
             // 
@@ -164,7 +164,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(2348, 1146);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBoxPlot);
             this.Controls.Add(this.flowLayoutPanelSymbols);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -175,7 +175,7 @@
             this.menuStrip1.PerformLayout();
             this.flowLayoutPanelSymbols.ResumeLayout(false);
             this.flowLayoutPanelSymbols.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlot)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,7 +193,7 @@
         private FlowLayoutPanel flowLayoutPanelSymbols;
         private Label labelNoSymbols;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private PictureBox pictureBox1;
+        private PictureBox pictureBoxPlot;
         private ToolStripMenuItem sourcesToolStripMenuItem;
         private ToolStripMenuItem executeDebugModeToolStripMenuItem;
     }

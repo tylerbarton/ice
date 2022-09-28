@@ -117,7 +117,7 @@ namespace InstrumentMonitor
             }
 
             // Update the chart
-            pictureBox1.Invoke((MethodInvoker)delegate
+            pictureBoxPlot.Invoke((MethodInvoker)delegate
             {
                 pictureBox1_Update();
             });
@@ -211,8 +211,8 @@ namespace InstrumentMonitor
         /// </summary>
         private void pictureBox1_Update()
         {
-            int width = pictureBox1.Width;
-            int height = pictureBox1.Height;
+            int width = pictureBoxPlot.Width;
+            int height = pictureBoxPlot.Height;
             var plot = new ScottPlot.Plot(width, height);
     
             // Get the data based on the selected symbol
@@ -230,7 +230,7 @@ namespace InstrumentMonitor
 
             // Generate & print the plot
             ConfigurePlot(ref plot, data);
-            pictureBox1.Image = plot.GetBitmap();
+            pictureBoxPlot.Image = plot.GetBitmap();
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace InstrumentMonitor
         private void clearTickersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             flowLayoutPanelSymbols.Controls.Clear();
-            pictureBox1.Image = null;
+            pictureBoxPlot.Image = null;
         }
     }
 }
