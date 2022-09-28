@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "InstrumentMonitor": {
+      "commandName": "Project"
+    },
+    "SimulationEngine": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\Tyler\\source\\repos\\InstrumentMonitor\\SimulationEngine\\src"
+    }
+  }
+}
