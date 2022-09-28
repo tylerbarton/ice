@@ -19,7 +19,7 @@ namespace SimulationEngine.src.Models.Engines
         public string Source;
         string IMarketEngine.Source => Source;
         internal delegate void OnDataGeneratedHandler(object sender, Dictionary<string, TickerPoint> data);
-        internal event OnDataGeneratedHandler OnDataGenerated;
+        internal event OnDataGeneratedHandler? OnDataGenerated;
 
         public StdMarketEngine(string source)
         {
