@@ -17,8 +17,14 @@ namespace InstrumentMonitor
         /// </summary>
         public static FormMain Instance { get; private set; }
 
+        /// <summary>
+        /// The market engines used to generate simulated data.
+        /// </summary>
         private static List<IMarketEngine> marketEngines = new();
 
+        /// <summary>
+        /// Constructor for the main form.
+        /// </summary>
         public FormMain()
         {
             Instance = this;
@@ -27,7 +33,7 @@ namespace InstrumentMonitor
         }
 
         /// <summary>
-        /// Displays creation information
+        /// Displays application creator information
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -120,6 +126,7 @@ namespace InstrumentMonitor
         /// <summary>
         /// Called when the user selects a new symbol from the panel
         /// </summary>
+        /// <param name="sender">Used to identify the panel that triggered this event.</param>
         private void SymbolPanel_Click(object sender, EventArgs e)
         {
             // Change the color of the panel to indicate it is selected
