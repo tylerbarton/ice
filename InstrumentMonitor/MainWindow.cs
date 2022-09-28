@@ -57,16 +57,6 @@ namespace InstrumentMonitor
             addTickerToolStripMenuItem_Click(sender, e);
         }
 
-        /// <summary>
-        /// Draws the selected symbol chart
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            return;
-        }
-
         private void AddSymbolPanel(string symbol, string source)
         {
             // Check if the placeholder text is still visible and remove it if so
@@ -134,7 +124,7 @@ namespace InstrumentMonitor
         {
             // Change the color of the panel to indicate it is selected
             SymbolPanel panel = (SymbolPanel)sender;
-            panel.BackColor = Color.FromArgb(52, 50, 56);
+            panel.BackColor = Colors.SELECTED_GRAY;
 
             // Change the color of the other panels to indicate they are not selected
             foreach (Control control in flowLayoutPanelSymbols.Controls)
@@ -301,8 +291,6 @@ namespace InstrumentMonitor
         private void clearTickersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             flowLayoutPanelSymbols.Controls.Clear();
-
-            // Clear the chart
             pictureBox1.Image = null;
         }
     }
