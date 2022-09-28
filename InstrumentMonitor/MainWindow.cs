@@ -166,10 +166,10 @@ namespace InstrumentMonitor
         {
             // Basic Styling
             plot.Style(ScottPlot.Style.Gray1);
-            plot.XAxis.TickLabelStyle(fontSize: 30);
+            plot.XAxis.TickLabelStyle(fontSize: 40);
             plot.XAxis.Label("Time");
             plot.YAxis.Label("Price");
-            plot.YAxis.TickLabelStyle(fontSize: 30);
+            plot.YAxis.TickLabelStyle(fontSize: 40);
 
             // Set Axis Limits (NYSE Hours)
             plot.AxisAuto(0, 0);
