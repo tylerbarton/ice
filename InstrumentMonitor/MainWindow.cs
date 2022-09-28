@@ -101,7 +101,7 @@ namespace InstrumentMonitor
         /// <summary>
         /// Updates the symbol panels with the latest data
         /// </summary>
-        private void SymbolPanel_Update(Dictionary<string, TickerPoint> e)
+        private void SymbolPanel_Update(Dictionary<string, InstrumentDataTick> e)
         {
             // Update the text price
             foreach (SymbolPanel panel in flowLayoutPanelSymbols.Controls)
@@ -162,7 +162,7 @@ namespace InstrumentMonitor
         /// </summary>
         /// <param name="plot">The plot to modify</param>
         /// <param name="data">The data used to dynamically configure the chart</param>
-        private void ConfigurePlot(ref Plot plot, List<TickerPoint> data)
+        private void ConfigurePlot(ref Plot plot, List<InstrumentDataTick> data)
         {
             // Basic Styling
             plot.Style(ScottPlot.Style.Gray1);

@@ -8,7 +8,7 @@ namespace SimulationEngine.src.Models.Engines
     public interface IMarketEngine
     {
         /// <summary>
-        /// The source of the market data.
+        /// The source of the market data. This would be comparable to an API.
         /// </summary>
         string Source { get; }
 
@@ -26,7 +26,7 @@ namespace SimulationEngine.src.Models.Engines
         /// <summary>
         /// Assigns a function to the delegate that is called when new data is available.
         /// </summary>
-        void Subscribe(Action<Dictionary<string, TickerPoint>> callback);
+        void Subscribe(Action<Dictionary<string, InstrumentDataTick>> callback);
 
         /// <summary>
         /// Remove delegates from this engine.

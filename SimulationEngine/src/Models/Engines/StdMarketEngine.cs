@@ -14,16 +14,20 @@ namespace SimulationEngine.src.Models.Engines
 
         private static bool _isRunning = false;
         public bool IsRunning => _isRunning;
-        private readonly Dictionary<string, TickerData> _marketData = new();
-        public Dictionary<string, TickerPoint> LastData { get; private set; } = new();
-        public string Source;
-        string IMarketEngine.Source => Source;
-        internal delegate void OnDataGeneratedHandler(object sender, Dictionary<string, TickerPoint> data);
+        private string _source;
+        public string Source => _source;
+        private readonly Dictionary<string, InstrumentData> _marketData = new();
+        public Dictionary<string, InstrumentDataTick> LastData { get; private set; } = new();
+        internal delegate void OnDataGeneratedHandler(object sender, Dictionary<string, InstrumentDataTick> data);
         internal event OnDataGeneratedHandler? OnDataGenerated;
 
+        /// <summary>
+        /// Basic constructor
+        /// </summary>
+        /// <param name="source">Source identifier</param>
         public StdMarketEngine(string source)
         {
-            this.Source = source;
+            this._source = source;
         }
 
         /// <summary>
@@ -31,13 +35,13 @@ namespace SimulationEngine.src.Models.Engines
         /// </summary>
         /// <param name="symbol"></param>
         /// <returns></returns>
-        public List<TickerPoint> GetMarketData(string symbol)
+        public List<InstrumentDataTick> GetMarketData(string symbol)
         {
             if (_marketData.ContainsKey(symbol))
             {
                 return _marketData[symbol].GetCurrentData();
             }
-            return new List<TickerPoint>();
+            return new List<InstrumentDataTick>();
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace SimulationEngine.src.Models.Engines
         {
             if (!_marketData.ContainsKey(symbol))
             {
-                _marketData.Add(symbol, new TickerData(symbol));
+                _marketData.Add(symbol, new InstrumentData(symbol));
             }
         }
 
@@ -55,13 +59,13 @@ namespace SimulationEngine.src.Models.Engines
         /// Create new data from a random walk.
         /// </summary>
         /// <param name="symbol">The symbol of the stock to get</param>
-        public TickerData GenerateMarketData(string symbol)
+        public InstrumentData GenerateMarketData(string symbol)
         {
             // Get the next point from the symbol
-            _marketData.TryGetValue(symbol, out TickerData data);
+            _marketData.TryGetValue(symbol, out InstrumentData data);
             if (data == null)
             {
-                data = new TickerData(symbol);
+                data = new InstrumentData(symbol);
                 _marketData.Add(symbol, data);
             }
 
@@ -104,7 +108,7 @@ namespace SimulationEngine.src.Models.Engines
         /// Subscribes to the OnDataGenerated event.
         /// </summary>
         /// <param name="callback">The function to call on the new data.</param>
-        public void Subscribe(Action<Dictionary<string, TickerPoint>> callback)
+        public void Subscribe(Action<Dictionary<string, InstrumentDataTick>> callback)
         {
             OnDataGenerated += (sender, data) => callback(LastData);
         }

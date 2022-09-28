@@ -12,7 +12,7 @@ namespace SimulationEngine.src.Models.Engines.Tests
         {
             int count = 0;
             var engine = new StdMarketEngine("NYSE");
-            Action<Dictionary<string, TickerPoint>> callback = (data) => { count++;  };
+            Action<Dictionary<string, InstrumentDataTick>> callback = (data) => { count++;  };
             engine.Subscribe(callback);
             engine.Start();
             System.Threading.Thread.Sleep(1000);
@@ -33,7 +33,7 @@ namespace SimulationEngine.src.Models.Engines.Tests
         {
             int count = 0;
             var engine = new StdMarketEngine("NYSE");
-            Action<Dictionary<string, TickerPoint>> callback = (data) => count++;
+            Action<Dictionary<string, InstrumentDataTick>> callback = (data) => count++;
             engine.Subscribe(callback);
 
             engine.Start();

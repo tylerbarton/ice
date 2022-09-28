@@ -14,7 +14,7 @@ namespace SimulationEngine.src.Models.Data.Tests
         [TestMethod()]
         public void TickerDataTest()
         {
-            var data = new TickerData("AAPL");
+            var data = new InstrumentData("AAPL");
             Assert.AreEqual("AAPL", data.Symbol);
             Assert.IsTrue(DateTime.Now.Subtract(data.Data[0].Time).TotalSeconds < 1);
             Assert.AreEqual(12 * 60, data.Data.Count);
@@ -23,7 +23,7 @@ namespace SimulationEngine.src.Models.Data.Tests
         [TestMethod()]
         public void GetNextTest()
         {
-            var data = new TickerData("AAPL");
+            var data = new InstrumentData("AAPL");
             Assert.AreEqual("AAPL", data.Symbol);
 
             var next = data.GetNext();
