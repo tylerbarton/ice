@@ -289,7 +289,7 @@ namespace InstrumentMonitor
             AddSymbol("MSFT", "NASDAQ");
             AddSymbol("AMZN", "NASDAQ");
             AddSymbol("GOOG", "NASDAQ");
-            AddSymbol("FB", "NASDAQ");
+            AddSymbol("META", "NASDAQ");
         }
 
         /// <summary>
