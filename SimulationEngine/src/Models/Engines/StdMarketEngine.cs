@@ -7,19 +7,28 @@ namespace SimulationEngine.src.Models.Engines
     /// </summary>
     public class StdMarketEngine : IMarketEngine
     {
+        private static bool _isRunning = false;
+        public bool IsRunning => _isRunning;
+        private string _source;
+        public string Source => _source;
+        internal delegate void OnDataGeneratedHandler(object sender, Dictionary<string, InstrumentDataTick> data);
+        internal event OnDataGeneratedHandler? OnDataGenerated;
+
         /// <summary>
         /// The amount of time in milliseconds to wait between simulated data generation.
         /// </summary>
         private const int UPDATE_INTERVAL_MS = 500;
 
-        private static bool _isRunning = false;
-        public bool IsRunning => _isRunning;
-        private string _source;
-        public string Source => _source;
+        /// <summary>
+        /// Instrument data for each symbol
+        /// </summary>
         private readonly Dictionary<string, InstrumentData> _marketData = new();
+
+        /// <summary>
+        /// Data that was generated is the most recent iteration.
+        /// </summary>
         public Dictionary<string, InstrumentDataTick> LastData { get; private set; } = new();
-        internal delegate void OnDataGeneratedHandler(object sender, Dictionary<string, InstrumentDataTick> data);
-        internal event OnDataGeneratedHandler? OnDataGenerated;
+
 
         /// <summary>
         /// Basic constructor
