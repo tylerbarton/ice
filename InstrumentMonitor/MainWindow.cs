@@ -65,29 +65,6 @@ namespace InstrumentMonitor
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             return;
-            // TODO: Remove this method
-
-            int width = pictureBox1.Width;
-            int height = pictureBox1.Height;
-            var chart = new ScottPlot.Plot(width, height);
-            chart.Style(ScottPlot.Style.Gray1);
-
-            // Set the x-axis to display hours from 9 to 5 (technically 9:30 to 4)
-            string[] xLabels = { "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00" }; 
-            double[] xPositions = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-            chart.XAxis.ManualTickPositions(xPositions, xLabels);
-            chart.YAxis.Label("Price");
-            chart.YAxis.TickLabelStyle(fontSize: 10);
-
-
-            // Generate some random data
-            Random rand = new Random();
-            double[] prices = DataGen.RandomWalk(rand, 12 * 60, 100);
-            double[] times = DataGen.Consecutive(12 * 60, 1.0 / 60);
-
-            // Plot the data
-            chart.PlotScatter(times, prices, lineWidth: 2, color: Color.FromArgb(46, 192, 79));
-            pictureBox1.Image = chart.GetBitmap();
         }
 
         private void AddSymbolPanel(string symbol, string source)
@@ -137,7 +114,6 @@ namespace InstrumentMonitor
                 {
                     panel.Invoke((MethodInvoker)delegate
                     {
-                        // Running on the UI thread
                         panel.UpdatePrice(e[panel.Symbol].Price.ToString("C2"));
 
                     });
@@ -147,81 +123,12 @@ namespace InstrumentMonitor
             // Update the chart
             pictureBox1.Invoke((MethodInvoker)delegate
             {
-                // Running on the UI thread
                 pictureBox1_Update();
             });
         }
 
         /// <summary>
-        /// Updates the symbol panels with the latest data.
-        /// Note that this method is very dirty and should would definitely be refactored with more time.
-        /// </summary>
-        private void pictureBox1_Update()
-        {
-            int width = pictureBox1.Width;
-            int height = pictureBox1.Height;
-            var chart = new ScottPlot.Plot(width, height);
-            chart.Style(ScottPlot.Style.Gray1);
-
-            // Try to get the first panel where Selected() is true. If none exists, return.
-            SymbolPanel panel = flowLayoutPanelSymbols.Controls.OfType<SymbolPanel>().FirstOrDefault(x => x.Selected());
-            if (panel == null)
-            {
-                return;
-            }
-
-            IMarketEngine marketEngine = marketEngines.First(x => x.Source == panel.Source);
-            var data = (marketEngine as StdMarketEngine).GetMarketData(panel.Symbol);
-            // If the data is null or empty, return
-            if (data == null || data.Count == 0)
-            {
-                return;
-            }
-
-            // Disable autoaxis 
-            chart.AxisAuto(0, 0);
-
-
-            // Set the limits of the chart so x is 60*12 with labels from 9am to 4pm in increments of 10 minutes
-            double[] positions = new double[8];
-            string[] labels = new string[8];
-            for (int i = 0; i < 8; i++)
-            {
-                positions[i] = i * 60;
-
-                // Hacky way to Set the label to the corresponding am/pm time
-                labels[i] = (9 + i).ToString() + ":00 am";
-                if (i > 3)
-                {
-                    labels[i] = (i - 3).ToString() + ":00 pm";
-                }
-                
-            }
-            chart.XAxis.ManualTickPositions(positions, labels);
-
-            // Zoom out to see the whole day & dynamically resize the chart (sort of)
-            double start = (double)data[0].Price;
-            double end = (double)data[data.Count - 1].Price;
-            double max = (double)data.Max(x => x.Price);
-            double min = (double)data.Min(x => x.Price);
-            chart.SetAxisLimits(0, 7*60, Math.Min(start * 0.99,min), Math.Max(start * 1.01, max));
-
-            // Set y intervals to 0.1
-            chart.YAxis.ManualTickSpacing(0.1);
-
-            double[] prices = data.Select(x => (double)x.Price).ToArray();
-            double[] times = DataGen.Consecutive(prices.Length, 1.0);
-
-            // Plot the data
-            Color color = start < end ? Colors.POSITIVE_GREEN : Colors.NEGATIVE_RED;
-            chart.PlotScatter(times, prices, lineWidth: 2, color: color);
-            chart.PlotHLine(start, color: Color.Black, lineStyle: LineStyle.Dash, lineWidth: 2);
-
-            pictureBox1.Image = chart.GetBitmap();
-        }
-
-        /// <summary>
-        /// Handles the click event for the symbol panels
+        /// Called when the user selects a new symbol from the panel
         /// </summary>
         private void SymbolPanel_Click(object sender, EventArgs e)
         {
@@ -238,6 +145,7 @@ namespace InstrumentMonitor
                 }
             }
 
+            // Update the plot
             pictureBox1_Update();
         }
 
@@ -250,6 +158,82 @@ namespace InstrumentMonitor
         {
             // This approach is used to save time and avoid having to use a delegate
             Instance.AddSymbolPanel(symbol, source);
+        }
+
+        /// <summary>
+        /// Helper method for configuration of a Scottplot.
+        /// </summary>
+        /// <param name="plot">The plot to modify</param>
+        /// <param name="data">The data used to dynamically configure the chart</param>
+        private void ConfigurePlot(ref Plot plot, List<TickerPoint> data)
+        {
+            // Basic Styling
+            plot.Style(ScottPlot.Style.Gray1);
+            plot.XAxis.TickLabelStyle(fontSize: 30);
+            plot.XAxis.Label("Time");
+            plot.YAxis.Label("Price");
+            plot.YAxis.TickLabelStyle(fontSize: 30);
+
+            // Set Axis Limits (NYSE Hours)
+            plot.AxisAuto(0, 0);
+            double[] positions = new double[8];
+            string[] labels = new string[8];
+            for (int i = 0; i < 8; i++)
+            {
+                positions[i] = i * 60;
+
+                // Hacky way to Set the label to the corresponding am/pm time
+                labels[i] = (9 + i).ToString() + ":00 am";
+                if (i > 3)
+                {
+                    labels[i] = (i - 3).ToString() + ":00 pm";
+                }
+                
+            }
+            plot.XAxis.ManualTickPositions(positions, labels);
+            plot.YAxis.ManualTickSpacing(0.1);
+
+            // Frame the plot
+            double start = (double)data[0].Price;
+            double end = (double)data[data.Count - 1].Price;
+            double max = (double)data.Max(x => x.Price);
+            double min = (double)data.Min(x => x.Price);
+            plot.SetAxisLimits(0, 7*60, Math.Min(start * 0.99,min), Math.Max(start * 1.01, max));
+
+            // Plot the data
+            double[] prices = data.Select(x => (double)x.Price).ToArray();
+            double[] times = DataGen.Consecutive(prices.Length, 1.0);
+            Color color = start < end ? Colors.POSITIVE_GREEN : Colors.NEGATIVE_RED;
+            plot.PlotScatter(times, prices, lineWidth: 2, color: color);
+            plot.PlotHLine(start, color: Color.Black, lineStyle: LineStyle.Dash, lineWidth: 2);
+        }
+
+        /// <summary>
+        /// Updates the plot image with the latest data.
+        /// Note that this method is very dirty and should would definitely be refactored with more time.
+        /// </summary>
+        private void pictureBox1_Update()
+        {
+            int width = pictureBox1.Width;
+            int height = pictureBox1.Height;
+            var plot = new ScottPlot.Plot(width, height);
+    
+            // Get the data based on the selected symbol
+            SymbolPanel panel = flowLayoutPanelSymbols.Controls.OfType<SymbolPanel>().FirstOrDefault(x => x.Selected());
+            if (panel == null)
+            {
+                return;
+            }
+            IMarketEngine marketEngine = marketEngines.First(x => x.Source == panel.Source);
+            var data = (marketEngine as StdMarketEngine).GetMarketData(panel.Symbol);
+            if (data == null || data.Count == 0)
+            {
+                return;
+            }
+
+            // Generate & print the plot
+            ConfigurePlot(ref plot, data);
+            pictureBox1.Image = plot.GetBitmap();
         }
 
         /// <summary>
