@@ -155,6 +155,12 @@ namespace InstrumentMonitor
         {
             // This approach is used to save time and avoid having to use a delegate
             Instance.AddSymbolPanel(symbol, source);
+
+            // Alphabetize the watchlist in descending order
+            Instance.flowLayoutPanelSymbols.Controls.OfType<SymbolPanel>()
+                .OrderByDescending(x => x.Symbol)
+                .ToList()
+                .ForEach(x => Instance.flowLayoutPanelSymbols.Controls.SetChildIndex(x, 0));
         }
 
         /// <summary>

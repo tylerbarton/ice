@@ -18,6 +18,7 @@ Unit tests are found in the `SimulationEngineTests` project. These are used to t
 # Features
 - Real-time data display with dynamic adjustments
 - Adding multiple instruments with different sources (ie: NASDAQ, NYSE, etc.)
+- Alphabetical sorting of instruments
 - Multi-threaded data generation
 - Flawless window form resizing
 - Quick start method for demonstration purposes
