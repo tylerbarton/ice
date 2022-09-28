@@ -7,12 +7,28 @@ namespace SimulationEngine.src.Models.Data
     /// </summary>
     public class InstrumentData
     {
-        
+        /// <summary>
+        /// The symbol that is represented by this data
+        /// </summary>
         public string Symbol {get;set;}
+
+        /// <summary>
+        /// A collection of the generated data.
+        /// </summary>
         public List<InstrumentDataTick> Data {get;set;}
+
+        /// <summary>
+        /// The price used to generate the data via random walk.
+        /// </summary>
         private decimal _startPrice;
-        private Random _random = new Random();
+
+        /// <summary>
+        /// The current position of the data pointer
+        /// </summary>
         private int _curIndex = 0;
+
+        private Random _random = new Random();
+        
 
         /// <summary>
         /// Create a new object with all fields initialized.
