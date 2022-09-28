@@ -3,7 +3,7 @@
 </p>
 
 # ICE Instrument Monitor
-
+The project was developed using .NET 6.0 and Visual Studio 2022. Issues may be encountered on older technologies.
 
 # Getting Started:
 1. Quick Start Method
